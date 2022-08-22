@@ -17,7 +17,7 @@ export class ResultadosSimulacionesComponent implements OnInit {
   ) { }
   public migaPan = [
     {
-      titulo: 'Simulador ADSA',
+      titulo: 'Simulador SSBB',
       urlWeb: '/',
     },
     {
@@ -38,10 +38,10 @@ export class ResultadosSimulacionesComponent implements OnInit {
         this.SimulacionesCompletadas=x
         if(x!=undefined){
           this.SimulacionesCompletadas.forEach((y:any)=>{
-            if(y.idSimuladorAdsaModo==1){
+            if(y.idSimuladorLssbModo==1){
               this.ContEstudioCompleto=this.ContEstudioCompleto+1
             }
-            else if(y.idSimuladorAdsaModo==2){
+            else if(y.idSimuladorLssbModo==2){
               this.ContEntrenamientoCompleto=this.ContEntrenamientoCompleto+1
             }
             else{
