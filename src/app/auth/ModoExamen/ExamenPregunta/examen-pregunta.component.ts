@@ -70,8 +70,6 @@ export class ExamenPreguntaComponent implements OnInit {
     idAspNetUsers:'',
     usuario:''
   }
-  /* public DetalleRespuestaEnvio:any */
-  public Retroalimentacion= false;
   public RespuestaCorrecta=false;
   public RespuestaMarcada=false;
   public PausarContador=true;
@@ -108,24 +106,34 @@ export class ExamenPreguntaComponent implements OnInit {
     })
   }
   chageRadio(value: number,i: number, j: number) {
-    this.RespuestaMarcada=false;
-      if (value == 0 && this.ListaPreguntas[i].pregunta.respuesta[j] && this.ListaPreguntas[i].pregunta.idSimuladorTipoRespuesta==1) {
-        this.ListaPreguntas[i].pregunta.respuesta.forEach((x:any)=>{
-          x.respuestaSelecionada=0
-        })
-        this.RespuestaMarcada=true;
-        return 1;
-      }
-      if (value == 0 && this.ListaPreguntas[i].pregunta.respuesta[j] && this.ListaPreguntas[i].pregunta.idSimuladorTipoRespuesta==5) {
-        this.RespuestaMarcada=true
-        return 1;
-      }
-      this.RespuestaMarcada=false;
+    if (value == 0 && this.ListaPreguntas[i].pregunta.respuesta[j] && this.ListaPreguntas[i].pregunta.idSimuladorTipoRespuesta==1) {
+      this.ListaPreguntas[i].pregunta.respuesta.forEach((x:any)=>{
+        x.respuestaSelecionada=0
+      })
+      return 1;
+    }
+    if (value == 1 && this.ListaPreguntas[i].pregunta.respuesta[j] && this.ListaPreguntas[i].pregunta.idSimuladorTipoRespuesta==1) {
       return 0;
+    }
+    if (value == 0 && this.ListaPreguntas[i].pregunta.respuesta[j] && this.ListaPreguntas[i].pregunta.idSimuladorTipoRespuesta==5) {
+      return 1;
+    }
+    if (value == 1 && this.ListaPreguntas[i].pregunta.respuesta[j] && this.ListaPreguntas[i].pregunta.idSimuladorTipoRespuesta==5) {
+      return 0;
+
+    }
+    else return 0;
+}
+VerificarMarcado(i:number){
+  this.RespuestaMarcada=false
+  this.ListaPreguntas[i].pregunta.respuesta.forEach((x:any)=>{
+    if( x.respuestaSelecionada==1){
+      this.RespuestaMarcada=true
+    }
+  })
 }
 RegresarMenu(i:number){
   this.EnviarRespuesta(i);
-  this.Retroalimentacion=false;
   this.PausarContador=true;
   this._router.navigate(['/ModoExamen']);
 }
@@ -143,23 +151,24 @@ EnviarRespuesta(i:number){
   this.RegistroEnvioRespuesta.idSimuladorTipoRespuesta=this.ListaPreguntas[i].pregunta.idSimuladorTipoRespuesta,
   this.ListaPreguntas[i].pregunta.respuesta.forEach((x:any)=>{
     if(x.respuestaSelecionada==1){
-      this.DetalleRespuestaEnvio.idSimuladorLssbPreguntaRespuesta=x.id;
-      this.DetalleRespuestaEnvio.id=this.ListaPreguntas[i].id;
-      this.DetalleRespuestaEnvio.idSimuladorLssbExamen=0;
-      this.DetalleRespuestaEnvio.idSimuladorLssbDominio=0;
-      this.DetalleRespuestaEnvio.idSimuladorLssbTarea=0;
-      this.DetalleRespuestaEnvio.idSimuladorLssbPregunta=this.ListaPreguntas[i].idSimuladorLssbPregunta;
-      this.DetalleRespuestaEnvio.ejecutado=false;
-      this.DetalleRespuestaEnvio.puntaje=0;
-      this.DetalleRespuestaEnvio.idAspNetUsers='';
-      this.DetalleRespuestaEnvio.usuario=''
       if(this.ContadorPreguntaActual<=this.ContadorAux){
         this.RegistroEnvioRespuesta.estadoExamen=2
       }
       else{
         this.RegistroEnvioRespuesta.estadoExamen=3
       }
-      this.RegistroEnvioRespuesta.respuestaDetalle.push(this.DetalleRespuestaEnvio)
+      this.RegistroEnvioRespuesta.respuestaDetalle.push({
+        idSimuladorLssbPreguntaRespuesta:x.id,
+        id:this.ListaPreguntas[i].id,
+        idSimuladorLssbExamen:0,
+        idSimuladorLssbDominio:0,
+        idSimuladorLssbTarea:0,
+        idSimuladorLssbPregunta:this.ListaPreguntas[i].idSimuladorLssbPregunta,
+        ejecutado:false,
+        puntaje:0,
+        idAspNetUsers:'',
+        usuario:''
+      })
     }
 
   })
@@ -167,21 +176,10 @@ EnviarRespuesta(i:number){
     next:(x)=>{
       this.RespuestaCorrecta=x
     },
-    complete:()=>{
-      this.Retroalimentacion=true
-    },
   })
   this.RespuestaMarcada=false
-}
- SalirRetroalimentacion(){
-  this.PausarContador=true;
-    this._router.navigate(['/ModoExamen']);
-    this.ContadorPregunta=this.ContadorPregunta+1;
-  }
-  SiguientePregunta(){
-    this.ContadorPregunta=this.ContadorPregunta+1;
+  this.ContadorPregunta=this.ContadorPregunta+1;
     this.ContadorPreguntaActual=this.ContadorPreguntaActual+1;
-    this.Retroalimentacion=false;
     if (this.ContadorPreguntaActual>this.CantidadTotalPreguntas){
       this.PausarContador=true;
       this._router.navigate(['/ModoExamen/ExamenReporte/'+this.IdExamen]);
