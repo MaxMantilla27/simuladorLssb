@@ -94,7 +94,12 @@ export class BarrasComponent implements OnInit {
         { data: [ this.ResultadoDominio1,
           this.ResultadoDominio2,
           this.ResultadoDominio3,
-          this.ResultadoDominio4],
+          this.ResultadoDominio4,
+          this.ResultadoDominio5,
+          this.ResultadoDominio6,
+          this.ResultadoDominio7,
+          this.ResultadoDominio8,
+          this.ResultadoDominio9],
           label: 'Puntaje (%)',
           backgroundColor: '#00C356',
           hoverBackgroundColor:[
