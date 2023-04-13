@@ -57,6 +57,7 @@ export class HeaderComponent implements OnInit {
   public listaConfiguracion:any
   ngOnInit(): void {
     if (this.token) {
+      this.ObtenerConfiguracionSimulador();
       this.ObtenerAvatar();
     }
   }

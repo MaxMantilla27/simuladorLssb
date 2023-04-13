@@ -100,6 +100,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
 
     if (this.token) {
+      this.ObtenerConfiguracionSimulador();
       this.ObtenerAvatar();
       this.ObtenerMejorExamenPorUsuario();
       this.ObtenerNivelUsuario();
