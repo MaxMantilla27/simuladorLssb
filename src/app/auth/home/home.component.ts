@@ -108,7 +108,6 @@ export class HomeComponent implements OnInit {
       this.ObtenerPromedioDominioPorModo();
       this.ListaDominioCombo();
       this.ObtenerConfiguracionSimulador();
-      this.ObtenerNivelUsuario();
     }
   }
 
@@ -206,6 +205,10 @@ export class HomeComponent implements OnInit {
        else{
         this.MostrarVideo=false;
        }
+      },
+      complete:()=>{
+      this.ObtenerNivelUsuario();
+
       }
     })
   }
