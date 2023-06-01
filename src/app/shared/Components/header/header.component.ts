@@ -57,13 +57,13 @@ export class HeaderComponent implements OnInit {
   public listaConfiguracion:any
   ngOnInit(): void {
     if (this.token) {
-      this.ObtenerConfiguracionSimulador();
       this.ObtenerAvatar();
+      this.ObtenerConfiguracionSimulador();
     }
   }
   OpenMenu(){
 
-    console.log(document.getElementsByClassName('matmenuCustom')[0].clientWidth)
+    // console.log(document.getElementsByClassName('matmenuCustom')[0].clientWidth)
 
   }
   resiseMenu(e:any){

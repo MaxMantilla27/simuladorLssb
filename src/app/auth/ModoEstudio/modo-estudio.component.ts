@@ -147,7 +147,6 @@ export class ModoEstudioComponent implements OnInit {
     this._DominioService.ObtenerLogo().subscribe({
       next:(x)=>{
         this.ListaLogo = x;
-        console.log(this.ListaLogo)
       }
     })
   }
